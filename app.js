@@ -72,7 +72,7 @@ app.controller('BTorrentCtrl', ['$scope', '$rootScope', '$http', '$log', '$locat
   })
   if (WebTorrent.WEBRTC_SUPPORT == null) {
     $rootScope.disabled = true
-    ngNotify.set('Please use latest Chrome, Firefox or Opera', {
+    ngNotify.set('Navegador sem suporte a WebRTC. Seguro, mas não faz torrent =(', {
       type: 'error',
       sticky: true,
       button: false
@@ -93,7 +93,7 @@ app.controller('BTorrentCtrl', ['$scope', '$rootScope', '$http', '$log', '$locat
         dbg(`Seeding file ${files[0].name}`)
       } else {
         dbg(`Seeding ${files.length} files`)
-        name = prompt('Please name your torrent', 'My Awesome Torrent') || 'My Awesome Torrent'
+        name = prompt('Diga o nome do torrent', 'Meu Arquivo Torrent') || 'Meu Arquivo Torrent'
         torrentOpts.name = name
       }
       $rootScope.client.processing = true
@@ -124,13 +124,13 @@ app.controller('BTorrentCtrl', ['$scope', '$rootScope', '$http', '$log', '$locat
     if (err) {
       throw err
     }
-    dbg('Destroyed torrent', $rootScope.selectedTorrent)
+    dbg('Torrent destruído', $rootScope.selectedTorrent)
     $rootScope.selectedTorrent = null
     $rootScope.client.processing = false
   }
   $rootScope.changePriority = function (file) {
     if (file.priority === '-1') {
-      dbg('Deselected', file)
+      dbg('Deselecionado', file)
       file.deselect()
     } else {
       dbg(`Selected with priority ${file.priority}`, file)
@@ -142,7 +142,7 @@ app.controller('BTorrentCtrl', ['$scope', '$rootScope', '$http', '$log', '$locat
     torrent.safeTorrentFileURL = torrent.torrentFileBlobURL
     torrent.fileName = `${torrent.name}.torrent`
     if (!isSeed) {
-      dbg('Received metadata', torrent)
+      dbg('Recebendo metadados', torrent)
       ngNotify.set(`Received ${torrent.name} metadata`)
       if (!($rootScope.selectedTorrent != null)) {
         $rootScope.selectedTorrent = torrent
@@ -155,7 +155,7 @@ app.controller('BTorrentCtrl', ['$scope', '$rootScope', '$http', '$log', '$locat
           throw err
         }
         if (isSeed) {
-          dbg('Started seeding', torrent)
+          dbg('Envio iniciado (seeding)', torrent)
           if (!($rootScope.selectedTorrent != null)) {
             $rootScope.selectedTorrent = torrent
           }
@@ -163,22 +163,22 @@ app.controller('BTorrentCtrl', ['$scope', '$rootScope', '$http', '$log', '$locat
         }
         file.url = url
         if (!isSeed) {
-          dbg('Done ', file)
-          ngNotify.set(`<b>${file.name}</b> ready for download`, 'success')
+          dbg('Concluído ', file)
+          ngNotify.set(`<b>${file.name}</b> pronto para download`, 'success')
         }
       })
     })
     torrent.on('done', function () {
       if (!isSeed) {
-        dbg('Done', torrent)
+        dbg('Concluído', torrent)
       }
-      ngNotify.set(`<b>${torrent.name}</b> has finished downloading`, 'success')
+      ngNotify.set(`<b>${torrent.name}</b> terminou de baixar`, 'success')
     })
     torrent.on('wire', function (wire, addr) { dbg(`Wire ${addr}`, torrent) })
     torrent.on('error', er)
   }
   $rootScope.onSeed = function (torrent) { $rootScope.onTorrent(torrent, true) }
-  dbg('Ready')
+  dbg('Pronto')
 }
 ])
 
@@ -198,37 +198,37 @@ app.controller('FullCtrl', ['$scope', '$rootScope', '$http', '$log', '$location'
       minWidth: '200'
     }, {
       field: 'length',
-      name: 'Size',
+      name: 'Tamanho',
       cellFilter: 'pbytes',
       width: '80'
     }, {
       field: 'received',
-      displayName: 'Downloaded',
+      displayName: 'Baixado',
       cellFilter: 'pbytes',
       width: '135'
     }, {
       field: 'downloadSpeed',
-      displayName: '↓ Speed',
+      displayName: '↓ Velocidade de download',
       cellFilter: 'pbytes:1',
       width: '100'
     }, {
       field: 'progress',
-      displayName: 'Progress',
+      displayName: 'Progresso',
       cellFilter: 'progress',
       width: '100'
     }, {
       field: 'timeRemaining',
-      displayName: 'ETA',
+      displayName: 'Tempo restante',
       cellFilter: 'humanTime',
       width: '140'
     }, {
       field: 'uploaded',
-      displayName: 'Uploaded',
+      displayName: 'Enviado',
       cellFilter: 'pbytes',
       width: '125'
     }, {
       field: 'uploadSpeed',
-      displayName: '↑ Speed',
+      displayName: '↑ Velocidade de upload',
       cellFilter: 'pbytes:1',
       width: '100'
     }, {
@@ -305,7 +305,7 @@ app.controller('ViewCtrl', ['$scope', '$rootScope', '$http', '$log', '$location'
     torrent.fileName = `${torrent.name}.torrent`
     $rootScope.selectedTorrent = torrent
     $rootScope.client.processing = false
-    dbg('Received metadata', torrent)
+    dbg('Recebidos metadados', torrent)
     ngNotify.set(`Received ${torrent.name} metadata`)
     torrent.files.forEach(function (file) {
       file.appendTo('#viewer')
@@ -314,10 +314,10 @@ app.controller('ViewCtrl', ['$scope', '$rootScope', '$http', '$log', '$location'
           throw err
         }
         file.url = url
-        dbg('Done ', file)
+        dbg('Concluído ', file)
       })
     })
-    torrent.on('done', function () { dbg('Done', torrent) })
+    torrent.on('done', function () { dbg('Concluído', torrent) })
     torrent.on('wire', function (wire, addr) { dbg(`Wire ${addr}`, torrent) })
     torrent.on('error', er)
   }
