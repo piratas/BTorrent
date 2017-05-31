@@ -300,7 +300,9 @@ app.controller('ViewCtrl', ['$scope', '$rootScope', '$http', '$log', '$location'
   })
   onTorrent = function (torrent) {
     $rootScope.viewerStyle = {
+      'margin': '0px',
       'margin-top': '-20px',
+      'width': '100%',
       'text-align': 'center'
     }
     dbg(torrent.magnetURI)
