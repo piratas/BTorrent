@@ -1,6 +1,7 @@
 /* global WebTorrent, angular, moment, prompt */
 
-const VERSION = '0.17.6'
+// Translated by huebr
+const VERSION = '0.17.6-huebr'
 
 const trackers = ['wss://tracker.btorrent.xyz', 'wss://tracker.openwebtorrent.com', 'wss://tracker.fastcast.nz']
 
@@ -36,7 +37,7 @@ const dbg = function (string, item, color) {
 
 const er = function (err, item) { dbg(err, item, '#FF0000') }
 
-dbg(`Starting... v${VERSION}`)
+dbg(`Iniciando... v${VERSION}`)
 
 const client = new WebTorrent({
   tracker: trackerOpts
@@ -90,9 +91,9 @@ app.controller('BTorrentCtrl', ['$scope', '$rootScope', '$http', '$log', '$locat
     let name
     if ((files != null) && files.length > 0) {
       if (files.length === 1) {
-        dbg(`Seeding file ${files[0].name}`)
+        dbg(`Semeando arquivo ${files[0].name}`)
       } else {
-        dbg(`Seeding ${files.length} files`)
+        dbg(`Semeando ${files.length} arquivos`)
         name = prompt('Diga o nome do torrent', 'Meu Arquivo Torrent') || 'Meu Arquivo Torrent'
         torrentOpts.name = name
       }
@@ -103,7 +104,7 @@ app.controller('BTorrentCtrl', ['$scope', '$rootScope', '$http', '$log', '$locat
   }
   $rootScope.openTorrentFile = function (file) {
     if (file != null) {
-      dbg(`Adding torrent file ${file.name}`)
+      dbg(`Adicionando arquivo torrent ${file.name}`)
       $rootScope.client.processing = true
       $rootScope.client.add(file, torrentOpts, $rootScope.onTorrent)
     }
@@ -115,7 +116,7 @@ app.controller('BTorrentCtrl', ['$scope', '$rootScope', '$http', '$log', '$locat
   })
   $rootScope.addMagnet = function (magnet, onTorrent) {
     if ((magnet != null) && magnet.length > 0) {
-      dbg(`Adding magnet/hash ${magnet}`)
+      dbg(`Adicionando magnet/hash ${magnet}`)
       $rootScope.client.processing = true
       $rootScope.client.add(magnet, torrentOpts, onTorrent || $rootScope.onTorrent)
     }
@@ -133,7 +134,7 @@ app.controller('BTorrentCtrl', ['$scope', '$rootScope', '$http', '$log', '$locat
       dbg('Deselecionado', file)
       file.deselect()
     } else {
-      dbg(`Selected with priority ${file.priority}`, file)
+      dbg(`Prioridade ${file.priority}`, file)
       file.select(file.priority)
     }
   }
@@ -143,7 +144,7 @@ app.controller('BTorrentCtrl', ['$scope', '$rootScope', '$http', '$log', '$locat
     torrent.fileName = `${torrent.name}.torrent`
     if (!isSeed) {
       dbg('Recebendo metadados', torrent)
-      ngNotify.set(`Received ${torrent.name} metadata`)
+      ngNotify.set(`Recebidos metadados de ${torrent.name}`)
       if (!($rootScope.selectedTorrent != null)) {
         $rootScope.selectedTorrent = torrent
       }
@@ -194,6 +195,7 @@ app.controller('FullCtrl', ['$scope', '$rootScope', '$http', '$log', '$location'
   $scope.columns = [
     {
       field: 'name',
+      displayName: 'Nome',
       cellTooltip: true,
       minWidth: '200'
     }, {
@@ -208,7 +210,7 @@ app.controller('FullCtrl', ['$scope', '$rootScope', '$http', '$log', '$location'
       width: '135'
     }, {
       field: 'downloadSpeed',
-      displayName: '↓ Velocidade de download',
+      displayName: '↓ Download',
       cellFilter: 'pbytes:1',
       width: '100'
     }, {
@@ -218,7 +220,7 @@ app.controller('FullCtrl', ['$scope', '$rootScope', '$http', '$log', '$location'
       width: '100'
     }, {
       field: 'timeRemaining',
-      displayName: 'Tempo restante',
+      displayName: 'Restante',
       cellFilter: 'humanTime',
       width: '140'
     }, {
@@ -228,7 +230,7 @@ app.controller('FullCtrl', ['$scope', '$rootScope', '$http', '$log', '$location'
       width: '125'
     }, {
       field: 'uploadSpeed',
-      displayName: '↑ Velocidade de upload',
+      displayName: '↑ Upload',
       cellFilter: 'pbytes:1',
       width: '100'
     }, {
@@ -237,6 +239,7 @@ app.controller('FullCtrl', ['$scope', '$rootScope', '$http', '$log', '$location'
       width: '80'
     }, {
       field: 'ratio',
+      displayName: 'Propor&ccedil;&atilde;o',
       cellFilter: 'number:2',
       width: '80'
     }
@@ -263,7 +266,7 @@ app.controller('FullCtrl', ['$scope', '$rootScope', '$http', '$log', '$location'
   if ($location.hash() !== '') {
     $rootScope.client.processing = true
     setTimeout(function () {
-      dbg(`Adding ${$location.hash()}`)
+      dbg(`Adicionando ${$location.hash()}`)
       $rootScope.addMagnet($location.hash())
     }, 0)
   }
@@ -282,7 +285,7 @@ app.controller('DownloadCtrl', ['$scope', '$rootScope', '$http', '$log', '$locat
   if ($location.hash() !== '') {
     $rootScope.client.processing = true
     setTimeout(function () {
-      dbg(`Adding ${$location.hash()}`)
+      dbg(`Adicionando ${$location.hash()}`)
       $rootScope.addMagnet($location.hash())
     }, 0)
   }
@@ -306,7 +309,7 @@ app.controller('ViewCtrl', ['$scope', '$rootScope', '$http', '$log', '$location'
     $rootScope.selectedTorrent = torrent
     $rootScope.client.processing = false
     dbg('Recebidos metadados', torrent)
-    ngNotify.set(`Received ${torrent.name} metadata`)
+    ngNotify.set(`Recebidos metadados de ${torrent.name}`)
     torrent.files.forEach(function (file) {
       file.appendTo('#viewer')
       file.getBlobURL(function (err, url) {
@@ -328,7 +331,7 @@ app.controller('ViewCtrl', ['$scope', '$rootScope', '$http', '$log', '$location'
   if ($location.hash() !== '') {
     $rootScope.client.processing = true
     setTimeout(function () {
-      dbg(`Adding ${$location.hash()}`)
+      dbg(`Adicionando ${$location.hash()}`)
       $rootScope.addMagnet($location.hash(), onTorrent)
     }, 0)
   }
