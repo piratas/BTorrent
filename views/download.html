@@ -3,34 +3,34 @@
   <div ng-hide="$root.client.torrents.length != 0" style="vertical-align: middle; text-align: center">
     <div class="row">
       <form class="no-margin" ng-submit="addMagnet()">
-        <label>Enter magnet, hash or http(s) .torrent</label>
-        <input type="text" placeholder="magnet, hash or http(s) .torrent" ng-model="torrentInput" ng-disabled="$root.disabled" style="width: 50%"/>
+        <label>Cole o magnet link, hash ou .torrent http(s)</label>
+        <input type="text" placeholder="magnet, hash ou .torrent http(s)" ng-model="torrentInput" ng-disabled="$root.disabled" style="width: 50%"/>
       </form>
       <!--button(ng-click="addMagnet()" ng-disabled="!torrentInput.length || $root.disabled" ng-class="{"button-primary": torrentInput.length}")
       i.fa.fa-download
-      |  Download
+      |  Baixar
       -->
     </div>
     <div class="row">
-      <label>or...</label>
-      <button type="file" ngf-select="$root.openTorrentFile($file)" ng-disabled="$root.disabled" ng-class="{'button-primary': !$root.disabled}"><i class="fa fa-folder-open"></i> Open torrent file</button>
+      <label>ou...</label>
+      <button type="file" ngf-select="$root.openTorrentFile($file)" ng-disabled="$root.disabled" ng-class="{'button-primary': !$root.disabled}"><i class="fa fa-folder-open"></i> Abrir arquivo torrent</button>
     </div>
   </div>
   <div class="div" ng-if="selectedTorrent" style="text-align: center">
     <div class="four columns" style="overflow: auto">
-      <h4>Information</h4>
+      <h4>Informa&ccedil;&atilde;o</h4>
       <table class="u-full-width">
         <tbody>
           <tr>
-            <td>Name</td>
+            <td>Nome</td>
             <td>{{$root.selectedTorrent.name}}</td>
           </tr>
           <tr>
-            <td>Size</td>
+            <td>Tamanho</td>
             <td>{{$root.selectedTorrent.length | pbytes}}</td>
           </tr>
           <tr>
-            <td>Completed</td>
+            <td>Progresso</td>
             <td>{{$root.selectedTorrent.progress | progress}} ({{$root.selectedTorrent.downloaded | pbytes}})</td>
           </tr>
           <tr>
@@ -38,24 +38,24 @@
             <td>{{$root.selectedTorrent.numPeers}}</td>
           </tr>
           <tr>
-            <td>↓ Speed</td>
+            <td>↓ Velocidade</td>
             <td>{{$root.selectedTorrent.downloadSpeed | pbytes:1}}</td>
           </tr>
           <tr>
-            <td>ETA</td>
+            <td>Restante</td>
             <td>{{$root.selectedTorrent.timeRemaining | humanTime}}</td>
           </tr>
         </tbody>
       </table>
     </div>
     <div class="four columns">
-      <h4>Files</h4>
+      <h4>Arquivos</h4>
       <table class="u-full-width" style="margin: auto">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Size</th>
-            <th>Priority</th>
+            <th>Nome</th>
+            <th>Tamanho</th>
+            <th>Prioridade</th>
           </tr>
         </thead>
         <tbody>
@@ -65,22 +65,22 @@
             <td>{{file.length | pbytes}}</td>
             <td>
               <select class="no-margin" name="{{file.name}}Priority" ng-model="file.priority" ng-init="file.priority = '0'" ng-change="$root.changePriority(file)">
-                <option value="1">High Priority</option>
-                <option value="0" selected="">Low Priority</option>
-                <option value="-1">Don't download</option>
+                <option value="1">Alta Prioridade</option>
+                <option value="0" selected="">Baixa Prioridade</option>
+                <option value="-1">N&atilde;o baixar</option>
               </select>
             </td>
           </tr>
         </tbody>
       </table>
-      <h5>↑ Click a file to download it</h5>
+      <h5>↑ Clique em um arquivo para baix&aacute;-lo</h5>
     </div>
     <div class="four columns">
-      <h4>Share</h4>
+      <h4>Compartilhar</h4>
       <ul style="text-align: justify">
-        <li><a ng-href="#{{$root.selectedTorrent.infoHash}}" target="_blank">βTorrent</a></li>
+        <li><a ng-href="#{{$root.selectedTorrent.infoHash}}" target="_blank">Link βTorrent</a></li>
         <li><a ng-href="{{$root.selectedTorrent.magnetURI}}" target="_blank">Magnet URI</a></li>
-        <li><a ng-href="{{$root.selectedTorrent.safeTorrentFileURL}}" target="_self" download="{{$root.selectedTorrent.fileName}}">.torrent</a></li>
+        <li><a ng-href="{{$root.selectedTorrent.safeTorrentFileURL}}" target="_self" download="{{$root.selectedTorrent.fileName}}">arquivo .torrent</a></li>
         <li><strong>Hash: </strong>{{$root.selectedTorrent.infoHash}}</li>
       </ul>
     </div>
