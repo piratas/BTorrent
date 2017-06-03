@@ -81,3 +81,10 @@ input[type="button"].button-danger:focus {
   color: #FFF;
   background-color: #C43E3A;
   border-color: #C43E3A; }
+
+#viewer iframe {
+  min-width: 90%;
+  height: auto;
+  padding: 1em;
+}
+

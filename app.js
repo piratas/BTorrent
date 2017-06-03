@@ -302,8 +302,9 @@ app.controller('ViewCtrl', ['$scope', '$rootScope', '$http', '$log', '$location'
     $rootScope.viewerStyle = {
       'margin': '0px',
       'margin-top': '-20px',
-      'width': '100%',
-      'text-align': 'center'
+      'min-width': '100%',
+      'text-align': 'center',
+      'padding': '1em'
     }
     dbg(torrent.magnetURI)
     torrent.safeTorrentFileURL = torrent.torrentFileBlobURL
